@@ -14,6 +14,8 @@ const ApolloCacheInmemory = require('apollo-cache-inmemory');
 const fetch = require('node-fetch');
 const gql = require('graphql-tag');
 
+const robot = require('robotjs');
+
 const _ = require('lodash');
 
 const client = new ApolloClient.ApolloClient({
@@ -124,6 +126,7 @@ ipcMain.on('connect-signature-key', (e, config) => {
         });
 
         clipboard.writeHtml(result.data.generateSignature);
+        robot.keyTap('v', 'command');
 
         mainWindow.setProgressBar(1);
       }
