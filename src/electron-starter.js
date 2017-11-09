@@ -17,10 +17,11 @@ const gql = require('graphql-tag');
 const robot = require('robotjs');
 
 const _ = require('lodash');
+const host = process.env.API || 'http://localhost:4005';
 
 const client = new ApolloClient.ApolloClient({
   link: new ApolloLinkHttp.HttpLink({
-    uri: 'http://localhost:4005/graphql',
+    uri: `${host}/graphql`,
     fetch,
   }),
   cache: new ApolloCacheInmemory.InMemoryCache(),
