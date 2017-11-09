@@ -35,7 +35,10 @@ let mainWindow;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    width: 150,
+    height: 100,
+  });
 
   // and load the index.html of the app.
   const startUrl = process.env.ELECTRON_START_URL || url.format({
@@ -45,7 +48,7 @@ function createWindow() {
   });
   mainWindow.loadURL(startUrl);
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -128,20 +131,15 @@ ipcMain.on('connect-signature-key', (e, config) => {
         clipboard.writeHtml(result.data.generateSignature);
         robot.keyTap('v', 'command');
 
-        mainWindow.setProgressBar(1);
-      }
-      catch(e) {
-        debugAlert(e.message + e.stack);
-      }
-      finally {
         _.each(clipboardFormats, (format) => {
           clipboard[format.write](clipboardBackup[format.key]);
         });
 
+        mainWindow.setProgressBar(1);
         mainWindow.setProgressBar(-1);
-        setTimeout(() => {
-          mainWindow.setProgressBar(-1);
-        }, 1000);
+      }
+      catch(e) {
+        debugAlert(e.message + e.stack);
       }
     });
   };
